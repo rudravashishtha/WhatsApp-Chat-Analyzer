@@ -37,6 +37,7 @@ def fetch_stats(selected_user, df):
 
 
 def most_busy_user(df):
+    df = df[df['user'] != 'group_notification']
     x = df['user'].value_counts().head()
     df = round((df['user'].value_counts() / df.shape[0]) * 100, 2).reset_index().rename(columns={'user': 'Name', 'count': 'Percent'})
 
@@ -52,7 +53,7 @@ def create_word_cloud(selected_user, df):
     temp_df = df[df['message'] != '<Media omitted>\n']
     temp_df = temp_df[temp_df['message'] != 'You deleted this message\n']
     temp_df = temp_df[temp_df['message'] != 'This message was deleted\n']
-    temp_df = temp_df[temp_df['user'] != 'group_notification\n']
+    temp_df = temp_df[temp_df['user'] != 'group_notification']
 
     def remove_stop_words(message):
         words = []
@@ -76,7 +77,7 @@ def most_common_words(selected_user, df):
     temp_df = df[df['message'] != '<Media omitted>\n']
     temp_df = temp_df[temp_df['message'] != 'You deleted this message\n']
     temp_df = temp_df[temp_df['message'] != 'This message was deleted\n']
-    temp_df = temp_df[temp_df['user'] != 'group_notification\n']
+    temp_df = temp_df[temp_df['user'] != 'group_notification']
 
     words = []
     for message in temp_df['message']:
@@ -253,8 +254,6 @@ if uploaded_file is not None:
                 x, new_df = most_busy_user(df)
                 fig, ax = plt.subplots()
                 col1, col2 = st.columns(2)
-                # remove row which contains group_notifications as user
-                new_df = new_df[df['user'] == 'group_notification']
 
                 with col1:
                     ax.bar(x.index, x.values, color='brown')
