@@ -51,6 +51,7 @@ def create_word_cloud(selected_user, df):
         df = df[df['user'] == selected_user]
 
     temp_df = df[df['message'] != '<Media omitted>\n']
+    temp_df = temp_df[temp_df['message'] != 'null\n']
     temp_df = temp_df[temp_df['message'] != 'You deleted this message\n']
     temp_df = temp_df[temp_df['message'] != 'This message was deleted\n']
     temp_df = temp_df[temp_df['user'] != 'group_notification']
